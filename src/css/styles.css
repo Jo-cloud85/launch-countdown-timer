@@ -1,0 +1,355 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+    font-family: 'Red Hat Text', sans-serif;
+    font-weight: 700;
+    font-size: var(--r14);
+
+    /* Primary */
+    --grayish-blue: hsl(237, 18%, 59%);
+    --soft-red: hsl(345, 95%, 68%);
+
+    /* Neutral */
+    --white: hsl(0, 0%, 100%);
+    --dark-desaturated-blue: hsl(235, 15%, 17%);
+    --very-dark-desaturated-blue: hsl(240, 9%, 13%);
+    --very-dark-blue: hsl(235, 16%, 14%);
+    --very-dark-mostly-black-blue: hsl(234, 17%, 12%);
+}
+
+html {
+    --r30: calc((30 / var(--base) * 1rem));
+    --r20: calc((20 / var(--base) * 1rem));
+    --r18: calc((18 / var(--base) * 1rem));
+    --r15: calc((15 / var(--base) * 1rem));
+    --r14: calc((14 / var(--base) * 1rem));
+    --r12: calc((12 / var(--base) * 1rem));
+    --r10: calc((10 / var(--base) * 1rem));
+    --base: 16;
+}
+
+/* Inherit fonts */
+input,
+button,
+textarea {
+    font: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+p {
+    line-height: 1.8;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--very-dark-blue);
+}
+
+body, main {
+    display: grid;
+    place-content: center;
+    text-align: center;
+}
+
+main {
+    margin-bottom: 0rem;
+}
+
+h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.35rem;
+    margin: 0 auto 4rem auto;
+    width: 350px;
+}
+
+img {
+    width: 100%;
+    object-fit: cover;
+}
+
+#background-pattern,
+#background-stars {
+    position: absolute;
+    min-height: 20%;
+    left: 0;
+}
+
+#background-pattern {
+    bottom: 0;
+}
+
+#background-stars {
+    top: 0;
+}
+
+#social-media {
+    position: absolute;
+    bottom: 7%;
+    left: calc(50% - 4rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+svg.icon {
+    fill: var(--grayish-blue);
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+svg.icon:hover > path {
+    fill: var(--soft-red);
+}
+
+/* ---------------------------------------------------- */
+.flip-timer {
+    margin-bottom: 10rem;
+}
+
+.flip-timer__piece {
+    display: inline-block;
+    margin: 1rem;
+}
+
+.timer__label {
+    text-transform: uppercase;
+    font-size: var(--r14);
+    letter-spacing: 0.15rem;
+    color: var(--grayish-blue);
+}
+
+.card {
+    position: relative; 
+    padding-bottom: 3rem;
+    margin-bottom: 1rem;
+    font-size: 4rem;
+    line-height: 0.95;
+    filter: drop-shadow(0 10px 0 var(--very-dark-desaturated-blue));
+}
+
+.card-segment__top,
+.card-segment__bottom,
+.card__back::before,
+.card__back::after {
+    background-color: var(--very-dark-desaturated-blue);
+    display: block;
+    height: 3rem;
+    width: 7rem;
+    color: var(--soft-red);
+    padding: 1rem 1rem;
+    border-radius: 6px 6px 0 0;
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+}
+
+.card-segment__top {
+    --mask: radial-gradient(5px at 5px 100%,#0000 98%,#000) -5px;
+    -webkit-mask: var(--mask);
+            mask: var(--mask);
+}
+
+.card-segment__bottom { 
+    background-color: var(--dark-desaturated-blue); 
+    border-top: solid 1px var(--very-dark-mostly-black-blue);
+    border-radius: 0 0 6px 6px; 
+    color: var(--soft-red);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    pointer-events: none;
+    overflow: hidden;
+    --mask: radial-gradient(5px at 5px 0,#0000 98%,#000) -5px;
+    -webkit-mask: var(--mask);
+            mask: var(--mask);
+    
+}
+
+.card-segment__bottom::after {
+    display: block;
+    margin-top: -3rem;
+}
+
+.card__back::before,
+.card-segment__bottom::after {
+    content: attr(data-value);
+}
+
+.card__back {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    left: 0%;
+    pointer-events: none;
+}
+
+.card__back::before {
+    position: relative;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.flip .card__back::before {
+    animation: flipTop 0.3s cubic-bezier(.37,.01,.94,.35);
+    animation-fill-mode: both;
+    transform-origin: center bottom;
+}
+
+.flip .card__back .card-segment__bottom {
+    animation-fill-mode: both;
+    transform-origin: center top;
+    animation: flipBottom 0.6s cubic-bezier(.15,.45,.28,1);
+}
+
+@keyframes flipTop {
+    0% {
+        transform: rotateX(0deg);
+        z-index: 2;
+    }
+    0%, 99% {
+        opacity: 0.99;
+    }
+    100% {
+        transform: rotateX(-90deg);
+        opacity: 0;
+    }
+}
+
+@keyframes flipBottom {
+    0%, 50% {
+        z-index: -1;
+        transform: rotateX(90deg);
+        opacity: 0;
+    }
+    51% {
+        opacity: 0.99;
+    }
+    100% {
+        opacity: 0.99;
+        transform: rotateX(0deg);
+        z-index: 5;
+    }
+}
+
+
+@media (min-width: 768px){
+    main {
+        margin-bottom: 8rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 8rem;
+        width: auto;
+    } 
+
+    .timer__label {
+        font-size: 1rem;
+    }
+
+    .card {
+        padding-bottom: 4rem;
+        margin-bottom: 1.5rem;
+        font-size: 5.5rem;
+        filter: drop-shadow(0 10px 0 var(--very-dark-desaturated-blue));
+    }
+
+    .card-segment__top,
+    .card-segment__bottom,
+    .card__back::before,
+    .card__back::after {
+        height: 4rem;
+        width: 10rem;
+        padding: 1.4rem 1.4rem;
+        border-radius: var(--r12) var(--r12) 0 0;
+    }
+
+    .card-segment__top {
+        --mask: radial-gradient(10px at 10px 100%,#0000 98%,#000) -10px;
+    }
+    
+    .card-segment__bottom { 
+        border-radius: 0 0 var(--r12) var(--r12); 
+        --mask: radial-gradient(10px at 10px 0,#0000 98%,#000) -10px;    
+    }
+
+    .card-segment__bottom::after {
+        margin-top: -4rem;
+    }
+}
+
+@media (min-width: 1024px){
+    main {
+        margin-bottom: 6rem;
+    }
+    
+    h1 {
+        font-size: var(--r30);
+        letter-spacing: 0.5rem;
+        margin-bottom: 10rem;
+    } 
+
+    #background-pattern,
+    #background-stars {
+        min-height: 10%;
+    }
+
+    .flip-timer__piece {
+        display: inline-block;
+        margin: 1.5rem;
+    }
+
+    .timer__label {
+        font-size: var(--r20);
+        letter-spacing: 0.25rem;
+    }
+
+    .card {
+        padding-bottom: 5rem;
+        margin-bottom: 2rem;
+        font-size: 7rem;
+        line-height: 0.95;
+        filter: drop-shadow(0 10px 0 var(--very-dark-desaturated-blue));
+    }
+
+    .card-segment__top,
+    .card-segment__bottom,
+    .card__back::before,
+    .card__back::after {
+        height: 5rem;
+        width: 12.5rem;
+        padding: 1.8rem 1.8rem;
+        border-radius: var(--r12) var(--r12) 0 0;
+    }
+
+    .card-segment__top {
+        --mask: radial-gradient(10px at 10px 100%,#0000 98%,#000) -10px;
+    }
+    
+    .card-segment__bottom { 
+        border-radius: 0 0 var(--r12) var(--r12); 
+        --mask: radial-gradient(10px at 10px 0,#0000 98%,#000) -10px;    
+    }
+
+    .card-segment__bottom::after {
+        margin-top: -5rem;
+    }
+}
